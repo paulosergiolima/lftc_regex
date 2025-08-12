@@ -35,6 +35,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lftc_regex
-          path: target/x86_64-pc-windows-msvc/${{ matrix.BUILD_TARGET }}
+          path: target/${{ matrix.BUILD_TARGET }}/lftc_regex.exe
 
 
