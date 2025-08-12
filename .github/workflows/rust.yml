@@ -18,11 +18,6 @@ jobs:
     outputs:
       release_built: ${{ steps.set-output.outputs.release_built }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Build binaries in "${{ matrix.BUILD_TARGET }}" mode
-        run: cargo build --profile ${{ matrix.BUILD_TARGET }}
-      - name: Run tests in "${{ matrix.BUILD_TARGET }}" mode
-        run: cargo test --profile ${{ matrix.BUILD_TARGET }}
       - name: Cache
         uses: actions/cache@v4
         with:
@@ -31,10 +26,15 @@ jobs:
             ~/.cargo/git
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+      - uses: actions/checkout@v4
+      - name: Build binaries in "${{ matrix.BUILD_TARGET }}" mode
+        run: cargo build --profile ${{ matrix.BUILD_TARGET }}
+      - name: Run tests in "${{ matrix.BUILD_TARGET }}" mode
+        run: cargo test --profile ${{ matrix.BUILD_TARGET }}
       - name: Upload release artifact
         uses: actions/upload-artifact@v4
         with:
           name: lftc_regex
-          path: target/x86_64-pc-windows-msvc/${{ matrix.BUILD_TARGET }}/lftc_regex.exe
+          path: target/x86_64-pc-windows-msvc/${{ matrix.BUILD_TARGET }}
 
 
